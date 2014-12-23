@@ -15,7 +15,7 @@ int point;
 int brickNum;
 int ballX;
 int ballY;
-int life;
+int life=3;
 
 String pStart = "BRICKS";
 String sStart = "Press Enter to Start";
@@ -82,10 +82,10 @@ void draw(){
     drawBrick();
     //drawHorizon();
     //ballShot();
-    //pongLife(3);
+    pongLife();
     for (int i=0; i<bricks.length; i++){
         bricks[i].display();
-        pongLife(3);
+        pongLife();
     }
     
     break;
@@ -106,7 +106,7 @@ void draw(){
     //pongLife(3);
     for (int i=0; i<bricks.length; i++){
         bricks[i].display();
-        pongLife(3);
+        pongLife();
     }
     break;
   
@@ -118,7 +118,7 @@ void draw(){
     break;
   case GAME_WIN:
     /*---------Print Text-------------*/
-    printText(40, width/2, height/2+80, pWin, sWin+":"+point);
+    printText(40, width/2, height/2+80, pWin, "Ya!");
     break;
   case GAME_LOSE:
     fill(95, 194, 226);
@@ -165,14 +165,14 @@ void drawHorizon() {
   fill(230, 74, 96);
   text("LIFE:", 36, 470);
 }*/
-void pongLife(int life) {
+void pongLife() {
     fill(230, 74, 96);
     textSize(16);
     text("LIFE :", 36, 455); 
     int lifeX=88;
     int lifeY=448;
     int lifeGap=25;
-    for(int i=0;i<aBall.life;i++){
+    for(int i=0;i<life;i++){
       fill(230, 74, 96);
       noStroke();
       ellipse(lifeX+(lifeGap*i),lifeY,15,15);
@@ -214,6 +214,8 @@ void reset() {
 //  }
   brickMaker(105,40,41,10);
   //aBall.life=3;
+  life=3;
+  brickNum=0;
 }
 
 void mouseClicked(){
@@ -227,12 +229,13 @@ void checkWinLose() {
         status=GAME_WIN;
      }
      if(aBall.y>=height){
-       aBall.life-=1; 
-      if(aBall.life==0){
+        life-=1; 
+        status = GAME_RUN;
+      
+     }
+     if(life==0){
        status = GAME_LOSE;
      }
-     }
-     
 
 }
 
@@ -265,11 +268,11 @@ void statusCtrl() {
       break;
     case GAME_WIN:
       status = GAME_PLAYING;
-      //reset();
+      reset();
       break;
     case GAME_LOSE:
       status = GAME_PLAYING;
-      //reset();
+      reset();
       break;
     }
   }
