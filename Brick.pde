@@ -17,6 +17,4 @@ class Brick{
         bY=y;
         
       }
-
-
 }
